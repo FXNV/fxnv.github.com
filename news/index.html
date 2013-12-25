@@ -1,0 +1,43 @@
+---
+layout: page
+title: "Current Forex News"
+description: ""
+---
+{% include JB/setup %}
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+google.load("feeds", "1");
+
+function initialize() {
+  var feed = new google.feeds.Feed("https://news.google.com/news/feeds?pz=1&cf=all&ned=us&hl=en&csid=d7ed92dd9d7f4750&output=xml");
+  feed.setNumEntries(15)
+  feed.load(function(result) {
+    if (!result.error) {
+      var feedTitle = document.getElementById("feed-title");
+      feedTitle.innerHTML = result.feed.title;
+      var container = document.getElementById("feed");
+      for (var i = 0; i < result.feed.entries.length; i++) {
+        var entry = result.feed.entries[i];
+        var div = document.createElement("div");
+        // var link = document.createElement("a");
+        // link.appendChild(document.createTextNode(entry.title));
+        // link.href = entry.link;
+        // link.target = "_blank";
+        // div.appendChild(link);
+        var snippet = document.createElement("p");
+        snippet.innerHTML = entry.content;
+        // snippet.appendChild(document.createTextNode(entry.contentSnippet));
+        div.appendChild(snippet);
+
+        container.appendChild(div);
+      }
+    }
+  });
+}
+google.setOnLoadCallback(initialize);
+
+</script>
+<h3 id="feed-title" class="feed-title"></h3>
+<div id="feed" class="feed"></div>
